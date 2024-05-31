@@ -7,7 +7,7 @@ import datetime
 
 
 class TestBaseModel(unittest.TestCase):
-
+    """Class used for test cases"""
     def setUp(self):
         """Set up a new BaseModel instance for each test."""
         self.model = BaseModel()
