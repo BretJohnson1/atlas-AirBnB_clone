@@ -2,6 +2,7 @@
 import unittest
 from models.base_model import BaseModel
 import datetime
+import os
 
 """Defines a class TestBaseModel"""
 
@@ -16,7 +17,9 @@ class TestBaseModel(unittest.TestCase):
         """Test the save()"""
         original_updated_at = self.model.updated_at
         self.model.save()
-        self.assertNotEqual(original_updated_at, self.model.updated_at)
+        self.assertTrue(os.path.exists("file.json"))
+        new_updated_at = original_updated_at
+        self.assertNotEqual(original_updated_at, new_updated_at)
 
     def test_to_dict(self):
         """Test the to_dict()"""
