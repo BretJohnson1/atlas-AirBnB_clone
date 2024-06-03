@@ -131,3 +131,149 @@ class HBNBCommand(cmd.Cmd):
         """ Help information for the create method """
         print("Creates a class of any type")
         print("[Usage]: create <className>\n")
+
+    def do_show(self, args):
+        """shows an individual object"""
+        new = args.partition(" ")
+        io_name = new[0]
+        io_id = new[2]
+
+        if io_id and ' ' in io_id:
+            io_id = io_id.partition(' ')[0]
+
+        if not io_name:
+            print("** class name missing **")
+            return
+        
+        if io_name not in HBNBCommand.classes:
+            print("** class doasn't exist **")
+            return
+        
+        if not io_id:
+            print("** instance id missing **")
+            return
+        
+        key = io_name + "." + io_id
+        try:
+            print(storage._FileStorage__objects[key])
+        except KeyError:
+            print("** no instance found **")
+    
+    def help_show(self):
+        """ show command help """
+        print("Shows an individual instance of a class")
+        print("[Usage]: show <className> <objectId>\n")
+    
+    def do_destroy(self, args):
+        """destroys an object"""
+        new = args.partition(" ")
+        io_name = new[0]
+        io_id = new[2]
+        if io_id and ' ' in io_id:
+            io_id = io_id.partition(' ')[0]
+        
+        if not io_name:
+            print("** class name missing **")
+            return
+
+        if io_name not in HBNBCommand.classes:
+            print("** class doesn't exist **")
+            return
+        
+        if not io_id:
+            print("** instance id missing **")
+            return
+        
+        key = io_name + "." + io_id
+        try:
+            del (storage.all()[key])
+            storage.save()
+        except KeyError:
+            print("** no instance found **")
+        
+    def help_destroy(self):
+        """destroy command help"""
+        print("Destroys an instance of a class")
+        print("[Usage]: destroy <className> <objectId>\n")
+    
+    def do_all(self, args):
+        """displays all objects"""
+        obj_list = []
+
+        if args:
+            args = args.split(' ')[0]
+            if args not in HBNBCommand.classes:
+                print("** class doesn't exist **")
+                return
+            for k, v in storage._FileStorage__objects.items():
+                if k.split('.')[0] == args:
+                    obj_list.append(str(v))
+        else:
+            for k, v in storage._FileStorage__objects.items():
+                obj_list.append(str(v))
+        
+        print(obj_list)
+    
+    def help_all(self):
+        """all command help"""
+        print("Shows all objects")
+        print("[Usage]: all <className>\n")
+
+    def do_update(self, args):
+        """updates an instance"""
+        if not args:
+            print("** class name missing **")
+            return
+
+        arg_list = args.split()
+        io_name = arg_list[0]
+
+        if io_name not in HBNBCommand.classes:
+            print("** class doesn't exist")
+            return
+        
+        if len(arg_list) < 2:
+            print("** instance id missing **")
+            return
+        
+        instance_id = arg_list[1]
+
+        key = io_name + "." + instance_id
+        if key not in storage.all():
+            print("** no instance found **")
+            return
+        
+        if len(arg_list) < 3:
+            print("** attribute name missing **")
+            return
+        
+        attribute_name = arg_list[2]
+
+        if len(arg_list) < 4:
+            print("** value missing **")
+            return
+        
+        new_value = arg_list[3]
+
+        new_value = new_value.strip("\"")
+
+        instance = storage.all()[key]
+        attribute_type = type(getattr(instance, attribute_name, None))
+
+        if attribute_name in ["id", "created_at", "updated_at"]:
+            return
+        
+        try:
+            if "." in new_value:
+                value = float(new_value)
+            else:
+                value = int(new_value)
+        except ValueError:
+            value = new_value
+
+        obj = storage._FileStorage__objects[key]
+
+        storage.update(obj, attribute_name, value)
+
+if __name__ == "__main__":
+    HBNBCommand().cmdloop()
