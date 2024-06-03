@@ -29,8 +29,10 @@ class HBNBCommand(cmd.Cmd):
     }
     dot_cmds = ['all', 'count', 'show', 'destroy', 'update']
     types = {
-        'first_name': str, 'number_rooms': int, 'number_bathrooms': int, 'max_guest': int, 'price_by_night': int, 'email': str, 'latitude': float,
-          'longitude': float, 'last_name': str, 'password': str
+        'first_name': str, 'number_rooms': int, 'number_bathrooms': int,
+          'max_guest': int, 'price_by_night': int, 'email': str,
+            'latitude': float, 'longitude': float, 'last_name': str,
+              'password': str
     }
 
     def preloop(self):
@@ -159,7 +161,7 @@ class HBNBCommand(cmd.Cmd):
             print(storage._FileStorage__objects[key])
         except KeyError:
             print("** no instance found **")
-    
+
     def help_show(self):
         """ show command help """
         print("Shows an individual instance of a class")
@@ -275,6 +277,7 @@ class HBNBCommand(cmd.Cmd):
         obj = storage._FileStorage__objects[key]
 
         storage.update(obj, attribute_name, value)
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
