@@ -22,7 +22,8 @@ class FileStorage():
     def update(self, obj, key, value):
         """ This method removes an instance and saves to json file"""
         if not hasattr(obj, '__dict__'):
-            raise ValueError("obj must be an object instance, got '{}".format(type(obj).__name__))
+            raise ValueError("obj must be an object instance, got '{}".format(
+                type(obj).__name__))
         setattr(obj, key, value)
         FileStorage.save(self)
 
