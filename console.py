@@ -29,7 +29,8 @@ class HBNBCommand(cmd.Cmd):
     }
     dot_cmds = ['all', 'count', 'show', 'destroy', 'update']
     types = {
-        'first_name': str, 'number_rooms': int, 'number_bathrooms': int, 'max_guest': int, 'price_by_night': int, 'email': str, 'latitude': float, 'longitude': float, 'last_name': str, 'password': str
+        'first_name': str, 'number_rooms': int, 'number_bathrooms': int, 'max_guest': int, 'price_by_night': int, 'email': str, 'latitude': float,
+          'longitude': float, 'last_name': str, 'password': str
     }
 
     def preloop(self):
@@ -144,15 +145,15 @@ class HBNBCommand(cmd.Cmd):
         if not io_name:
             print("** class name missing **")
             return
-        
+
         if io_name not in HBNBCommand.classes:
             print("** class doasn't exist **")
             return
-        
+
         if not io_id:
             print("** instance id missing **")
             return
-        
+
         key = io_name + "." + io_id
         try:
             print(storage._FileStorage__objects[key])
@@ -163,7 +164,7 @@ class HBNBCommand(cmd.Cmd):
         """ show command help """
         print("Shows an individual instance of a class")
         print("[Usage]: show <className> <objectId>\n")
-    
+
     def do_destroy(self, args):
         """destroys an object"""
         new = args.partition(" ")
@@ -171,7 +172,7 @@ class HBNBCommand(cmd.Cmd):
         io_id = new[2]
         if io_id and ' ' in io_id:
             io_id = io_id.partition(' ')[0]
-        
+
         if not io_name:
             print("** class name missing **")
             return
@@ -179,23 +180,23 @@ class HBNBCommand(cmd.Cmd):
         if io_name not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        
+
         if not io_id:
             print("** instance id missing **")
             return
-        
+
         key = io_name + "." + io_id
         try:
             del (storage.all()[key])
             storage.save()
         except KeyError:
             print("** no instance found **")
-        
+
     def help_destroy(self):
         """destroy command help"""
         print("Destroys an instance of a class")
         print("[Usage]: destroy <className> <objectId>\n")
-    
+
     def do_all(self, args):
         """displays all objects"""
         obj_list = []
@@ -211,9 +212,9 @@ class HBNBCommand(cmd.Cmd):
         else:
             for k, v in storage._FileStorage__objects.items():
                 obj_list.append(str(v))
-        
+
         print(obj_list)
-    
+
     def help_all(self):
         """all command help"""
         print("Shows all objects")
@@ -231,28 +232,28 @@ class HBNBCommand(cmd.Cmd):
         if io_name not in HBNBCommand.classes:
             print("** class doesn't exist")
             return
-        
+
         if len(arg_list) < 2:
             print("** instance id missing **")
             return
-        
+
         instance_id = arg_list[1]
 
         key = io_name + "." + instance_id
         if key not in storage.all():
             print("** no instance found **")
             return
-        
+
         if len(arg_list) < 3:
             print("** attribute name missing **")
             return
-        
+
         attribute_name = arg_list[2]
 
         if len(arg_list) < 4:
             print("** value missing **")
             return
-        
+
         new_value = arg_list[3]
 
         new_value = new_value.strip("\"")
@@ -262,7 +263,7 @@ class HBNBCommand(cmd.Cmd):
 
         if attribute_name in ["id", "created_at", "updated_at"]:
             return
-        
+
         try:
             if "." in new_value:
                 value = float(new_value)
