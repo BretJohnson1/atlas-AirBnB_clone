@@ -101,30 +101,30 @@ class HBNBCommand(cmd.Cmd):
             # Split the parameter by '=' to get key and value
             param_parts = param.split('=')
 
-        # Check if the parameter has valid format (key=value)
-        if len(param_parts) != 2:
-            continue
+            # Check if the parameter has valid format (key=value)
+            if len(param_parts) != 2:
+                continue
 
-        key, value = param_parts[0], param_parts[1]
+            key, value = param_parts[0], param_parts[1]
 
-        # Unquote, underscore to space
-        if value.startswith('"') and value.endswith('"'):
-            value = value[1:-1].replace('_', ' ')
+            # Unquote, underscore to space
+            if value.startswith('"') and value.endswith('"'):
+                value = value[1:-1].replace('_', ' ')
 
-        # Convert values to appropriate data types (float, int, str)
-        if '.' in value:
-            try:
-                value = float(value)
-            except ValueError:
-                pass
-            else:
+            # Convert values to appropriate data types (float, int, str)
+            if '.' in value:
                 try:
-                    value = int(value)
+                    value = float(value)
                 except ValueError:
                     pass
+                else:
+                    try:
+                        value = int(value)
+                    except ValueError:
+                        pass
 
-        # Store the key value pair in the attributes dictionary
-        attributes[key] = value
+            # Store the key value pair in the attributes dictionary
+            attributes[key] = value
 
         # Create an instance of the specified class with the attributes
         new_instance = HBNBCommand.classes[class_name](**attributes)
