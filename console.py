@@ -156,7 +156,7 @@ class HBNBCommand(cmd.Cmd):
             return
 
         if io_name not in HBNBCommand.classes:
-            print("** class doasn't exist **")
+            print("** class doesn't exist **")
             return
 
         if not io_id:
