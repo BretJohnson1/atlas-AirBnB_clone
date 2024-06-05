@@ -15,26 +15,26 @@ class TestBaseModel(unittest.TestCase):
 
     def test_save(self):
         """Test the save()"""
-        original_updated_at = self.model.updated_at
+        original_save = self.model.updated_at
         self.model.save()
-        new_updated_at = original_updated_at
-        self.assertEqual(original_updated_at, new_updated_at)
+        new_save = self.model.updated_at
+        self.assertNotEqual(original_save, new_save)
 
     def test_to_dict(self):
         """Test the to_dict()"""
         model_dict = self.model.to_dict()
-        self.assertIsInstance(model_dict, dict)
+        self.assertTrue(type(model_dict["created_at"]) is str)
+        self.assertTrue(type(model_dict) is dict)
         self.assertIn("__class__", model_dict)
         self.assertEqual(model_dict["__class__"], "BaseModel")
 
     def test_id(self):
         """Test the self.id"""
-        self.assertIsInstance(self.model.id, str)
-        self.assertTrue(len(self.model.id) > 0)
+        self.assertTrue(type(self.model.id) is str)
 
     def test_created_at(self):
         """Test the self.created_at"""
-        self.assertIsInstance(self.model.created_at, datetime.datetime)
+        self.assertTrue(type(self.model.created_at) is datetime)
 
     def test_str(self):
         """Test the __str__(self)"""
