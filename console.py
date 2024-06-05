@@ -239,7 +239,7 @@ class HBNBCommand(cmd.Cmd):
         io_name = arg_list[0]
 
         if io_name not in HBNBCommand.classes:
-            print("** class doesn't exist")
+            print("** class doesn't exist **")
             return
 
         if len(arg_list) < 2:
