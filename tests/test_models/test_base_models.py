@@ -34,7 +34,7 @@ class TestBaseModel(unittest.TestCase):
 
     def test_created_at(self):
         """Test the self.created_at"""
-        self.assertTrue(type(self.model.created_at) is datetime)
+        self.assertTrue(type(self.model.created_at) is datetime.datetime)
 
     def test_str(self):
         """Test the __str__(self)"""
